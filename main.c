@@ -25,7 +25,8 @@
 
 #define CTRL_KEY(k) ((k) & 0x1f)
 
-enum editorKey {
+enum editorKey
+{
 	BACKSPACE = 127,
 	ARROW_LEFT = 1000,
 	ARROW_RIGHT,
@@ -54,6 +55,15 @@ enum editorHighlight
 #define HL_HIGHLIGHT_STRINGS (1 << 1)
 
 /*** data ***/
+
+typedef struct editorColor
+{
+	int R;
+	int G;
+	int B;
+	int fgOrBg; // foreground or background
+	int colorIndex;
+} editorColor;
 
 struct editorSyntax
 {
@@ -136,6 +146,7 @@ void die(const char *s)
 	write(STDOUT_FILENO, "\x1b[H", 3);
 
 	perror(s);
+	printf("\r"); // crurch
 	exit(1);
 }
 
@@ -246,7 +257,7 @@ int getCursorPosition(int *rows, int *cols)
 			break;
 		if (buf[i] == 'R')
 			break;
-		i++;
+		++i;
 	}
 	buf[i] = '\0';
 
@@ -423,18 +434,35 @@ void editorUpdateSyntax(erow *row)
 		editorUpdateSyntax(&E.row[row->idx + 1]);
 }
 
-int editorSyntaxToColor(int hl)
+editorColor *makeEditorColor(int R, int G, int B, int index)
+{
+	editorColor *color = malloc(sizeof(editorColor));
+	color->R = R;
+	color->G = G;
+	color->B = B;
+	color->colorIndex = index;
+	return color;
+}
+
+editorColor *editorSyntaxToColor(int hl)
 {
 	switch (hl)
 	{
 	case HL_COMMENT:
-	case HL_MLCOMMENT: return 36;
-	case HL_KEYWORD1:  return 33;
-	case HL_KEYWORD2:  return 32;
-	case HL_STRING:    return 35;
-	case HL_NUMBER:    return 31;
-	case HL_MATCH:     return 34;
-	default:           return 3;
+	case HL_MLCOMMENT:
+		return makeEditorColor(106, 153, 85, hl);
+	case HL_KEYWORD1:
+		return makeEditorColor(86, 157, 216, hl);
+	case HL_KEYWORD2:
+		return makeEditorColor(86, 157, 216, hl);
+	case HL_STRING:
+		return makeEditorColor(206, 145, 120, hl);
+	case HL_NUMBER:
+		return makeEditorColor(181, 206, 168, hl);
+	case HL_MATCH:
+		return makeEditorColor(255, 255, 0, hl);
+	default:
+		return makeEditorColor(255, 255, 255, hl);
 	}
 }
 
@@ -470,9 +498,9 @@ void editorSelectSyntaxHighlight()
 int editorRowCxToRx(erow *row, int cx)
 {
 	int rx = 0;
-	for (int j = 0; j < cx; ++j)
+	for (int i = 0; i < cx; ++i)
 	{
-		if (row->chars[j] == '\t')
+		if (row->chars[i] == '\t')
 			rx += (KILO_TAB_STOP - 1) - (rx % KILO_TAB_STOP);
 		++rx;
 	}
@@ -676,7 +704,6 @@ char *editorRowsToString(int *buflen)
 
 void editorOpen(char *filename)
 {
-	free(E.filename);
 	E.filename = strdup(filename);
 
 	editorSelectSyntaxHighlight();
@@ -851,26 +878,19 @@ void editorScroll()
 {
 	E.rx = 0;
 	if (E.cy < E.numrows)
-	{
 		E.rx = editorRowCxToRx(&E.row[E.cy], E.cx);
-	}
 
 	if (E.cy < E.rowoff)
-	{
 		E.rowoff = E.cy;
-	}
+
 	if (E.cy >= E.rowoff + E.screenrows)
-	{
 		E.rowoff = E.cy - E.screenrows + 1;
-	}
+
 	if (E.rx < E.coloff)
-	{
 		E.coloff = E.rx;
-	}
+
 	if (E.rx >= E.coloff + E.screencols)
-	{
 		E.coloff = E.rx - E.screencols + 1;
-	}
 }
 
 void editorDrawRows(struct abuf *ab)
@@ -926,23 +946,15 @@ void editorDrawRows(struct abuf *ab)
 						abAppend(ab, buf, clen);
 					}
 				}
-				else if (hl[j] == HL_NORMAL)
-				{
-					if (current_color != -1)
-					{
-						abAppend(ab, "\x1b[39m", 5);
-						current_color = -1;
-					}
-					abAppend(ab, &c[j], 1);
-				}
 				else
 				{
-					int color = editorSyntaxToColor(hl[j]);
-					if (color != current_color)
+					editorColor *color = editorSyntaxToColor(hl[j]);
+					if (color->colorIndex != current_color)
 					{
-						current_color = color;
-						char buf[16];
-						int clen = snprintf(buf, sizeof(buf), "\x1b[%dm", color);
+						current_color = color->colorIndex;
+						char buf[32];
+						int clen = snprintf(buf, sizeof(buf), "\x1b[38;2;%d;%d;%dm",
+							color->R, color->G, color->B);
 						abAppend(ab, buf, clen);
 					}
 					abAppend(ab, &c[j], 1);
@@ -1233,9 +1245,7 @@ int main(int argc, char *argv[])
 	enableRawMode();
 	initEditor();
 	if (argc >= 2)
-	{
 		editorOpen(argv[1]);
-	}
 
 	editorSetStatusMessage("HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find");
 
