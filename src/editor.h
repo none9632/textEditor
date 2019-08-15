@@ -25,42 +25,7 @@ enum editorKey
 	PAGE_DOWN
 };
 
-enum editorHighlight
-{
-	HL_NORMAL = 0,
-	HL_COMMENT,
-	HL_MLCOMMENT,
-	HL_KEYWORD1,
-	HL_KEYWORD2,
-	HL_STRING,
-	HL_NUMBER,
-	HL_MATCH
-};
-
-#define HL_HIGHLIGHT_NUMBERS (1 << 0)
-#define HL_HIGHLIGHT_STRINGS (1 << 1)
-
 /*** data ***/
-
-typedef struct editorColor
-{
-	int R;
-	int G;
-	int B;
-	int fgOrBg; // foreground or background
-	int colorIndex;
-} editorColor;
-
-struct editorSyntax
-{
-	char *filetype;
-	char **filematch;
-	char **keywords;
-	char *singleline_comment_start;
-	char *multiline_comment_start;
-	char *multiline_comment_end;
-	int flags;
-};
 
 typedef struct erow
 {
@@ -90,30 +55,3 @@ struct editorConfig
 	struct editorSyntax *syntax;
 	struct termios orig_termios;
 };
-
-struct editorConfig E;
-
-/*** filetypes ***/
-
-char *C_HL_extensions[] = { ".c", ".h", ".cpp", NULL };
-char *C_HL_keywords[] =
-{
-	"switch", "if", "while", "for", "break", "continue", "return", "else",
-	"default",
-
-	"int|", "long|", "double|", "float|", "char|", "unsigned|", "signed|",
-	"void|", "struct|", "union|", "typedef|", "static|", "enum|", NULL
-};
-
-struct editorSyntax HLDB[] =
-{
-	{
-		"c",
-		C_HL_extensions,
-		C_HL_keywords,
-		"//", "/*", "*/",
-		HL_HIGHLIGHT_NUMBERS | HL_HIGHLIGHT_STRINGS
-	},
-};
-
-#define HLDB_ENTRIES (sizeof(HLDB) / sizeof(HLDB[0]))

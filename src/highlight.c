@@ -1,3 +1,44 @@
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "editor.h"
+#include "highlight.h"
+
+extern struct editorConfig E;
+
+/*** defines ***/
+
+#define HL_HIGHLIGHT_NUMBERS (1 << 0)
+#define HL_HIGHLIGHT_STRINGS (1 << 1)
+
+/*** filetypes ***/
+
+char *C_HL_extensions[] = { ".c", ".h", ".cpp", NULL };
+char *C_HL_keywords[] =
+{
+	"switch", "if", "while", "for", "break", "continue", "return", "else",
+	"default",
+
+	"int|", "long|", "double|", "float|", "char|", "unsigned|", "signed|",
+	"void|", "struct|", "union|", "typedef|", "static|", "enum|", NULL
+};
+
+struct editorSyntax HLDB[] =
+{
+	{
+		"c",
+		C_HL_extensions,
+		C_HL_keywords,
+		"//", "/*", "*/",
+		HL_HIGHLIGHT_NUMBERS | HL_HIGHLIGHT_STRINGS
+	},
+};
+
+#define HLDB_ENTRIES (sizeof(HLDB) / sizeof(HLDB[0]))
+
+/*** syntax highlighting ***/
+
 static int is_separator(int c)
 {
 	return isspace(c) || c == '\0' || strchr(",.()+-/*=~%<>[];", c) != NULL;
@@ -142,7 +183,7 @@ void editorUpdateSyntax(erow *row)
 		editorUpdateSyntax(&E.row[row->idx + 1]);
 }
 
-editorColor *makeEditorColor(int R, int G, int B, int index)
+static editorColor *makeEditorColor(int R, int G, int B, int index)
 {
 	editorColor *color = malloc(sizeof(editorColor));
 	color->R = R;
