@@ -113,10 +113,10 @@ char *C_HL_extensions[] = { ".c", ".h", ".cpp", NULL };
 char *C_HL_keywords[] =
 {
 	"switch", "if", "while", "for", "break", "continue", "return", "else",
-	"struct", "union", "typedef", "static", "enum", "class", "case",
+	"default",
 
 	"int|", "long|", "double|", "float|", "char|", "unsigned|", "signed|",
-	"void|", NULL
+	"void|", "struct|", "union|", "typedef|", "static|", "enum|", NULL
 };
 
 struct editorSyntax HLDB[] =
@@ -452,9 +452,9 @@ editorColor *editorSyntaxToColor(int hl)
 	case HL_MLCOMMENT:
 		return makeEditorColor(106, 153, 85, hl);
 	case HL_KEYWORD1:
-		return makeEditorColor(86, 157, 216, hl);
+		return makeEditorColor(197, 134, 192, hl);
 	case HL_KEYWORD2:
-		return makeEditorColor(86, 157, 216, hl);
+		return makeEditorColor(86, 156, 214, hl);
 	case HL_STRING:
 		return makeEditorColor(206, 145, 120, hl);
 	case HL_NUMBER:
