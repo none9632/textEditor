@@ -3,6 +3,8 @@
 #include <time.h>
 #include <termios.h>
 
+#include "row.h"
+
 /*** defines ***/
 
 #define KILO_VERSION "0.0.1"
@@ -26,17 +28,6 @@ enum editorKey
 };
 
 /*** data ***/
-
-typedef struct erow
-{
-	int idx;
-	int size;
-	int rsize;
-	char *chars;
-	char *render;
-	unsigned char *hl;
-	int hl_open_comment;
-} erow;
 
 struct editorConfig
 {

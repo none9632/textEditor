@@ -1,4 +1,4 @@
-OBJ = editor.o highlight.o
+OBJ = editor.o highlight.o row.o
 
 all:
-	gcc -g3 editor.c highlight.c -o editor
+	gcc -g3 editor.c highlight.c row.c -o editor
