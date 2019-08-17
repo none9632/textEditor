@@ -1,17 +1,9 @@
-#pragma once 
+#pragma once
 
 #include <time.h>
 #include <termios.h>
 
 #include "row.h"
-
-/*** defines ***/
-
-#define KILO_VERSION "0.0.1"
-#define KILO_TAB_STOP 8
-#define KILO_QUIT_TIMES 3
-
-#define CTRL_KEY(k) ((k) & 0x1f)
 
 enum editorKey
 {
@@ -26,8 +18,6 @@ enum editorKey
 	PAGE_UP,
 	PAGE_DOWN
 };
-
-/*** data ***/
 
 struct editorConfig
 {

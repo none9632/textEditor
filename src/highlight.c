@@ -7,12 +7,8 @@
 
 extern struct editorConfig E;
 
-/*** defines ***/
-
 #define HL_HIGHLIGHT_NUMBERS (1 << 0)
 #define HL_HIGHLIGHT_STRINGS (1 << 1)
-
-/*** filetypes ***/
 
 char *C_HL_extensions[] = { ".c", ".h", ".cpp", NULL };
 char *C_HL_keywords[] =

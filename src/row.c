@@ -4,6 +4,8 @@
 #include "editor.h"
 #include "highlight.h"
 
+#define KILO_TAB_STOP 8
+
 extern struct editorConfig E;
 
 /*** row operations ***/

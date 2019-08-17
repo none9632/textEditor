@@ -1,6 +1,6 @@
 #pragma once
 
-#include "editor.h"
+#include "row.h"
 
 enum editorHighlight
 {
@@ -33,7 +33,6 @@ struct editorSyntax
 	char *multiline_comment_end;
 	int flags;
 };
-
 
 void editorUpdateSyntax(erow *row);
 void editorSelectSyntaxHighlight();

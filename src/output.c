@@ -8,6 +8,8 @@
 #include "highlight.h"
 #include "abuf.h"
 
+#define KILO_VERSION "0.0.1"
+
 extern struct editorConfig E;
 
 /*** output ***/
