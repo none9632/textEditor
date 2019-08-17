@@ -27,6 +27,8 @@ struct editorConfig
 	int coloff;
 	int screenrows;
 	int screencols;
+	int prev_screenrows;
+	int prev_screencols;
 	int numrows;
 	erow *row;
 	int dirty;

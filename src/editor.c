@@ -29,6 +29,8 @@ void initEditor()
 	if (getWindowSize(&E.screenrows, &E.screencols) == -1)
 		die("getWindowSize");
 	E.screenrows -= 2;
+	E.prev_screenrows = E.screenrows;
+	E.prev_screencols = E.screencols;
 }
 
 int main(int argc, char *argv[])

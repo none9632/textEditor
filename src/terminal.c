@@ -52,6 +52,17 @@ int editorReadKey()
 	{
 		if (nread == -1 && errno != EAGAIN)
 			die("read");
+		if (getWindowSize(&E.screenrows, &E.screencols) == -1)
+			die("getWindowSize");
+		E.screenrows -= 2;
+		if (E.prev_screenrows != E.screenrows ||
+			E.prev_screencols != E.screencols)
+		{
+			E.prev_screenrows = E.screenrows;
+			E.prev_screencols = E.screencols;
+			c = -1;
+			break;
+		}
 	}
 
 	if (c == '\x1b')
