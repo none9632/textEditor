@@ -8,6 +8,8 @@
 
 extern struct editorConfig E;
 
+int getWindowSize(int *rows, int *cols);
+
 /*** terminal ***/
 
 void die(const char *s)
