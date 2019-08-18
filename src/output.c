@@ -16,7 +16,7 @@ extern struct editorConfig E;
 
 int editorVolumeNum(int i)
 {
-	int volnum = 0;
+	int volnum = 1;
 
 	while (i > 0)
 	{
@@ -43,7 +43,7 @@ void editorScroll()
 		E.coloff = E.rx;
 
 	if (E.rx >= E.coloff + E.screencols)
-		E.coloff = E.rx - E.screencols + 1;
+		E.coloff = E.rx - E.screencols + 1 + E.volnum;
 }
 
 void editorDrawRows(struct abuf *ab)
@@ -80,7 +80,7 @@ void editorDrawRows(struct abuf *ab)
 		{
 			int len = E.row[filerow].rsize - E.coloff;
 			if (len < 0) len = 0;
-			if (len > E.screencols) len = E.screencols;
+			if (len > E.screencols - E.volnum) len = E.screencols - E.volnum;
 
 			char *c = &E.row[filerow].render[E.coloff];
 			unsigned char *hl = &E.row[filerow].hl[E.coloff];
@@ -185,7 +185,7 @@ void editorRefreshScreen()
 
 	char buf[32];
 	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1,
-											  (E.rx - E.coloff) + 1);
+											  (E.rx - E.coloff) + E.volnum + 1);
 	abAppend(&ab, buf, strlen(buf));
 
 	abAppend(&ab, "\x1b[?25h", 6);
