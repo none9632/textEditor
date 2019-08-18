@@ -14,6 +14,19 @@ extern struct editorConfig E;
 
 /*** output ***/
 
+int editorVolumeNum(int i)
+{
+	int volnum = 0;
+
+	while (i > 0)
+	{
+		i /= 10;
+		volnum++;
+	}
+
+	return volnum;
+}
+
 void editorScroll()
 {
 	E.rx = 0;
@@ -68,9 +81,19 @@ void editorDrawRows(struct abuf *ab)
 			int len = E.row[filerow].rsize - E.coloff;
 			if (len < 0) len = 0;
 			if (len > E.screencols) len = E.screencols;
+
 			char *c = &E.row[filerow].render[E.coloff];
 			unsigned char *hl = &E.row[filerow].hl[E.coloff];
 			int current_color = -1;
+
+			int current_numvol = editorVolumeNum(E.row[filerow].idx + 1);
+			for (int i = E.volnum - current_numvol; i > 0; i--)
+				abAppend(ab, " ", 1);
+			char buf2[16];
+			snprintf(buf2, sizeof(buf2), "%d", E.row[filerow].idx + 1);
+			abAppend(ab, buf2, current_numvol);
+			abAppend(ab, " ", 1);
+
 			for (int j = 0; j < len; ++j)
 			{
 				if (iscntrl(c[j]))
@@ -147,6 +170,8 @@ void editorDrawMessageBar(struct abuf *ab)
 
 void editorRefreshScreen()
 {
+	E.volnum = editorVolumeNum(E.numrows);
+
 	editorScroll();
 
 	struct abuf ab = ABUF_INIT;

@@ -30,6 +30,7 @@ struct editorConfig
 	int prev_screenrows;
 	int prev_screencols;
 	int numrows;
+	int volnum;
 	erow *row;
 	int dirty;
 	char *filename;
