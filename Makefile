@@ -1,21 +1,24 @@
-CC           := gcc
-TARGET       := editor
-CFLAGS       := -g3
-OBJDIR       := obj
-OBJ          := editor.o highlight.o row.o abuf.o terminal.o editorOp.o \
-	output.o input.o fileio.o find.o
+TARGET := text_editor
 
-remake: clear $(TARGET)
+CC := gcc
+CCFLAG := -Wall -g
 
-$(TARGET): $(OBJDIR) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
-	@mv *.o $(OBJDIR)
+OBJ_PATH := obj
+SRC_PATH := src
 
-$(OBJDIR): $(OBJDIR)
-	@mkdir $(OBJDIR)
+vpath %.c $(SRC_PATH)
+vpath %.o $(OBJ_PATH)
 
-%.o: src/%.c
-	$(CC) $(CFLAGS) -c $^
+SRC_FILES := $(wildcard $(SRC_PATH)/*.c)
+OBJ_FILES := $(subst $(SRC_PATH),$(OBJ_PATH),$(SRC_FILES:.c=.o))
 
-clear:
-	rm -rf $(OBJDIR) $(TARGET)
+$(TARGET): $(notdir $(OBJ_FILES))
+	$(CC) $(CCFLAG) $(OBJ_FILES) -o $(TARGET)
+
+%.o: %.c
+	$(CC) $(CCFLAG) -c $< -o $(OBJ_PATH)/$@
+
+rebuild: clean $(TARGET)
+
+clean:
+	rm -rf $(OBJ_PATH)/*.o $(TARGET)

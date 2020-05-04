@@ -1,8 +1,8 @@
 #include <string.h>
 
-#include "row.h"
-#include "editor.h"
-#include "highlight.h"
+#include "../include/row.h"
+#include "../include/editor.h"
+#include "../include/highlight.h"
 
 #define KILO_TAB_STOP 8
 

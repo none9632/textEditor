@@ -7,12 +7,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "editor.h"
-#include "highlight.h"
-#include "row.h"
-#include "output.h"
-#include "input.h"
-#include "terminal.h"
+#include "../include/editor.h"
+#include "../include/highlight.h"
+#include "../include/row.h"
+#include "../include/output.h"
+#include "../include/input.h"
+#include "../include/terminal.h"
 
 extern struct editorConfig E;
 

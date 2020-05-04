@@ -1,11 +1,11 @@
-#include "editor.h"
-#include "row.h"
-#include "highlight.h"
-#include "terminal.h"
-#include "editorOp.h"
-#include "fileio.h"
-#include "output.h"
-#include "input.h"
+#include "../include/editor.h"
+#include "../include/row.h"
+#include "../include/highlight.h"
+#include "../include/terminal.h"
+#include "../include/editorOp.h"
+#include "../include/fileio.h"
+#include "../include/output.h"
+#include "../include/input.h"
 
 struct editorConfig E;
 

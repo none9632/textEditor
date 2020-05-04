@@ -2,8 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "editor.h"
-#include "highlight.h"
+#include "../include/editor.h"
+#include "../include/highlight.h"
 
 extern struct editorConfig E;
 

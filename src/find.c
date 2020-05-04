@@ -1,9 +1,9 @@
 #include <string.h>
 
-#include "editor.h"
-#include "row.h"
-#include "highlight.h"
-#include "input.h"
+#include "../include/editor.h"
+#include "../include/row.h"
+#include "../include/highlight.h"
+#include "../include/input.h"
 
 extern struct editorConfig E;
 

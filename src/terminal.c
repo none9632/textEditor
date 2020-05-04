@@ -4,7 +4,7 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
 
-#include "editor.h"
+#include "../include/editor.h"
 
 extern struct editorConfig E;
 

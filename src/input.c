@@ -2,12 +2,12 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#include "editor.h"
-#include "output.h"
-#include "terminal.h"
-#include "editorOp.h"
-#include "find.h"
-#include "fileio.h"
+#include "../include/editor.h"
+#include "../include/output.h"
+#include "../include/terminal.h"
+#include "../include/editorOp.h"
+#include "../include/find.h"
+#include "../include/fileio.h"
 
 #define KILO_QUIT_TIMES 3
 #define CTRL_KEY(k) ((k) & 0x1f)
@@ -144,7 +144,7 @@ void editorProcessKeypress()
 		case END_KEY:
 			if (E.cy < E.numrows)
 				E.cx = E.row[E.cy].size;
-				break;
+			break;
 
 		case CTRL_KEY('f'):
 			editorFind();

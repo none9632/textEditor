@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "abuf.h"
+#include "../include/abuf.h"
 
 /*** append buffer ***/
 

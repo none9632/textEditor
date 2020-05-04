@@ -4,9 +4,9 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "editor.h"
-#include "highlight.h"
-#include "abuf.h"
+#include "../include/editor.h"
+#include "../include/highlight.h"
+#include "../include/abuf.h"
 
 #define KILO_VERSION "0.0.1"
 

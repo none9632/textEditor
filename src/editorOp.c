@@ -1,5 +1,5 @@
-#include "editor.h"
-#include "row.h"
+#include "../include/editor.h"
+#include "../include/row.h"
 
 extern struct editorConfig E;
 
